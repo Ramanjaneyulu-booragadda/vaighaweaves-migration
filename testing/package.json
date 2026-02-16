@@ -1,0 +1,25 @@
+{
+  "name": "vaighaweaves-migration-testing",
+  "version": "1.0.0",
+  "description": "Parallel API testing scripts for VaighaWeaves → Medusa migration",
+  "scripts": {
+    "test:compare-products": "ts-node compare-products.ts",
+    "test:compare-stock": "ts-node compare-stock.ts",
+    "test:compare-orders": "ts-node compare-orders.ts",
+    "test:load": "artillery run load-test.yml",
+    "test:all": "npm run test:compare-products && npm run test:compare-stock && npm run test:compare-orders"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "chalk": "^4.1.2",
+    "diff": "^5.1.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.9",
+    "@types/node": "^20.10.0",
+    "artillery": "^2.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
