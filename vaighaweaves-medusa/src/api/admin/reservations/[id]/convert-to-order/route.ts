@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
-import { reservationToOrderWorkflow } from "../../../../workflows/reservation-to-order"
+import { reservationToOrderWorkflow } from "../../../../../workflows/reservation-to-order"
 
 type ConvertToOrderBody = {
   payment_ref: string

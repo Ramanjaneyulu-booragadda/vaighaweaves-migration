@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-02-22T14:09:19.567Z",
+  "results": [
+    {
+      "name": "Order count matches",
+      "passed": true,
+      "details": "Exact match: 864 orders"
+    },
+    {
+      "name": "Order data parity (ID map coverage)",
+      "passed": true,
+      "details": "50/50 sampled orders found in Medusa (100.0%)"
+    },
+    {
+      "name": "No orphaned orders",
+      "passed": true,
+      "details": "864/864 order mappings verified in Medusa"
+    },
+    {
+      "name": "Order status distribution (Medusa)",
+      "passed": true,
+      "details": "4 distinct statuses across 864 orders",
+      "data": {
+        "delivered": 470,
+        "processing": 300,
+        "pending": 38,
+        "cancelled": 56
+      }
+    }
+  ]
+}

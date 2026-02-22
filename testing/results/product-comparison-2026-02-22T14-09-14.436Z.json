@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-02-22T14:09:14.436Z",
+  "results": [
+    {
+      "name": "Product count matches",
+      "passed": true,
+      "details": "Old API (active only): 95, Medusa (all migrated): 119 (+24 inactive products migrated — within 30% tolerance)"
+    },
+    {
+      "name": "Product data parity (by handle)",
+      "passed": true,
+      "details": "95/95 matched (100.0%), 0 missing in Medusa",
+      "data": {
+        "matched": 95,
+        "mismatched": 0,
+        "missingInNew": 0,
+        "missingInOld": 24,
+        "diffs": []
+      }
+    },
+    {
+      "name": "Response time comparison",
+      "passed": true,
+      "details": "Old=730ms, New=42ms (ratio: 0.06x)",
+      "duration": 42
+    },
+    {
+      "name": "Category filtering works",
+      "passed": true,
+      "details": "Category \"AJRAKH DRESS MATERIAL\" returned 2 products"
+    },
+    {
+      "name": "Product search works",
+      "passed": true,
+      "details": "\"saree\": 20, \"silk\": 20, \"cotton\": 20"
+    }
+  ]
+}

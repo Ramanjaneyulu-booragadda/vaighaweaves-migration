@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-02-22T14:09:20.757Z",
+  "results": [
+    {
+      "name": "Payment count matches",
+      "passed": true,
+      "details": "Exact match: 863 payments"
+    },
+    {
+      "name": "Payment amounts valid (sample)",
+      "passed": true,
+      "details": "30/30 payments have valid amount + transaction ID"
+    },
+    {
+      "name": "Payment status distribution (Medusa)",
+      "passed": true,
+      "details": "3 distinct statuses",
+      "data": {
+        "cancelled": 309,
+        "completed": 527,
+        "pending": 27
+      }
+    },
+    {
+      "name": "Total revenue (Medusa)",
+      "passed": true,
+      "details": "Total completed revenue: Rs.7270.64"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
-import { WISHLIST_MODULE } from "../../../../modules/wishlist"
-import WishlistModuleService from "../../../../modules/wishlist/service"
+import { WISHLIST_MODULE } from "../../../../../modules/wishlist"
+import WishlistModuleService from "../../../../../modules/wishlist/service"
 
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const customerId = req.auth_context?.actor_id

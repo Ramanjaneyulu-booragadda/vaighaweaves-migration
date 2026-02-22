@@ -25,6 +25,10 @@ module.exports = defineConfig({
     {
       resolve: "./src/modules/image-optimizer",
     },
+    // ── Pre-Phase 6: Wishlist (uncomment after running db:generate + db:migrate)
+    // {
+    //   resolve: "./src/modules/wishlist",
+    // },
     // ── Phase 3: Webhook Monitor ─────────────────────────────────────────
     {
       resolve: "./src/modules/webhook-monitor",

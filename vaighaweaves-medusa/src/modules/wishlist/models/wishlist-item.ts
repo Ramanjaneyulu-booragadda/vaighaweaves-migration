@@ -5,7 +5,6 @@ const WishlistItem = model.define("wishlist_item", {
   customer_id: model.text(),
   product_id: model.text(),
   variant_id: model.text().nullable(),
-  created_at: model.dateTime(),
 })
 
 export default WishlistItem
