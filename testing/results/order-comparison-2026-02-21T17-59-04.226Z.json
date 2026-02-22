@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-02-21T17:59:04.225Z",
+  "results": [
+    {
+      "name": "System connectivity / auth",
+      "passed": false,
+      "details": "column \"source_id\" does not exist"
+    }
+  ]
+}

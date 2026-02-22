@@ -2,15 +2,30 @@
 
 This folder contains all migration-related work for transitioning VaighaWeaves from Express + React to Medusa.js + Next.js.
 
+> **Status (Feb 18, 2026):** Data migration phase **complete** — all 13 scripts ran successfully.
+> Next: build custom plugins and verify Medusa API serves the migrated data.
+
 ## 📁 Folder Structure
 
 ```
 migration/
-├── vaighaweaves-medusa/     [NEXT STEP] New Medusa.js backend
-├── vaighaweaves-nextjs/     [PHASE 6] New Next.js frontend (optional, later)
-├── data-migration/          MySQL → PostgreSQL migration scripts
+├── vaighaweaves-medusa/     New Medusa.js backend (Phases 1–5)
+├── vaighaweaves-nextjs/     New Next.js frontend (Phase 6 — optional)
+├── data-migration/          MySQL → PostgreSQL scripts ✅ ALL COMPLETE
+│   ├── 01-setup-schema.ts
+├──  02-migrate-categories.ts   ✅ 92 records
+├──  03-migrate-products.ts     ✅ 117 records
+├──  04-migrate-images.ts       ✅ 1,311 records
+├──  05-migrate-variants-stock.ts ✅ 127 variants
+├──  06-migrate-users.ts        ✅ 2,573 users
+├──  07-migrate-addresses.ts    ✅ 610 records
+├──  08-migrate-orders.ts       ✅ 864 orders, 1,205 items
+├──  09-migrate-payments.ts     ✅ 863 records
+├──  10-migrate-stock-events.ts ✅ 36 records
+├──  11-migrate-shipments.ts    ✅ 0 (source empty)
+├──  12-verify-migration.ts     ✅ All checks passed
+└──  13-migrate-stock-reservations.ts ✅ 1,049 records
 ├── testing/                 Parallel API comparison tests
-│   ├── package.json
 │   ├── compare-products.ts
 │   ├── compare-stock.ts
 │   └── compare-orders.ts
@@ -19,65 +34,40 @@ migration/
 
 ## 🚀 Quick Start
 
-### Step 1: Initialize Medusa Backend
+### ✅ Step 1–5 — Data Migration (DONE)
+
+All MySQL → PostgreSQL migration scripts have been run. The target database `vaighaweaves_db_dev` on `localhost:5432` is fully populated.
+
+To re-run any individual script:
+```bash
+cd migration/data-migration
+npm run script:08   # e.g. re-run orders
+npm run script:12   # re-run verification at any time
+```
+
+To run the full pipeline from scratch:
+```bash
+cd migration/data-migration
+npm run migrate:all
+```
+
+### Step 6: Start Medusa Backend
 
 ```bash
 cd migration/vaighaweaves-medusa
-npx create-medusa-app@latest .
-
-# Choose options:
-# - PostgreSQL database
-# - Create admin user
-# - Seed database (optional)
-
-npm install
-```
-
-### Step 2: Configure Environment
-
-Create `.env` in `migration/vaighaweaves-medusa/`:
-
-```env
-NODE_ENV=development
-PORT=9000
-DATABASE_URL=postgresql://user:password@localhost:5432/vaighaweaves_new
-JWT_SECRET=your_super_secret_32_character_minimum_jwt_key
-COOKIE_SECRET=your_cookie_secret
-ADMIN_CORS=http://localhost:3000,http://localhost:3001,http://localhost:9000
-STORE_CORS=http://localhost:3000,http://localhost:3001
-
-# AWS S3 (same as old system)
-AWS_REGION=ap-south-1
-AWS_S3_BUCKET=your-bucket-name
-AWS_ACCESS_KEY_ID=...
-AWS_SECRET_ACCESS_KEY=...
-
-# Razorpay (same as old system)
-RAZORPAY_KEY_ID=...
-RAZORPAY_KEY_SECRET=...
-```
-
-### Step 3: Run Migrations
-
-```bash
-cd migration/vaighaweaves-medusa
-npm run migrations
-```
-
-### Step 4: Start Medusa
-
-```bash
 npm run dev
 # Backend: http://localhost:9000
 # Admin:   http://localhost:9000/app
 ```
 
-### Step 5: Data Migration
+### Step 7: Verify API Serves Migrated Data
 
 ```bash
-cd migration/data-migration
-npm install
-npm run migrate:all
+# Check products are visible
+curl http://localhost:9000/store/products | jq '.count'
+
+# Check admin panel
+open http://localhost:9000/app
 ```
 
 ## 📊 Testing Strategy
@@ -174,13 +164,17 @@ npm run test:all
 
 ## 📅 Timeline
 
-- **Week 0 (Feb 16-17):** ✅ Phase 0 - Setup complete
-- **Week 1-2 (Feb 18-Mar 3):** Phase 1 - Core infrastructure + stock management
-- **Week 3 (Mar 4-10):** Phase 2 - Product catalog
-- **Week 4 (Mar 11-17):** Phase 3 - Orders & payments
-- **Week 5 (Mar 18-24):** Phase 4 - Parallel testing
-- **Week 6 (Mar 25-31):** Phase 5 - Cutover
-- **Week 7+ (Apr 1+):** Phase 6 - Next.js migration (optional)
+| Phase | Dates | Status |
+|-------|-------|--------|
+| Phase 0 — Setup | Feb 16–17 | ✅ Complete |
+| Phase 1.1 — Medusa setup | Feb 17 | ✅ Complete |
+| Phase 1.2 — Data migration (scripts 01–13) | Feb 18 | ✅ Complete |
+| Phase 1.3 — Stock management plugin | Feb 18+ | 🔄 **Current** |
+| Phase 2 — Product catalog polish | Mar 4–10 | 🕒 Pending |
+| Phase 3 — Orders & payments | Mar 11–17 | 🕒 Pending |
+| Phase 4 — Parallel testing | Mar 18–24 | 🕒 Pending |
+| Phase 5 — Cutover | Mar 25–31 | 🕒 Pending |
+| Phase 6 — Next.js migration (optional) | Apr 1+ | 🕒 Optional |
 
 ## ✅ Success Criteria
 

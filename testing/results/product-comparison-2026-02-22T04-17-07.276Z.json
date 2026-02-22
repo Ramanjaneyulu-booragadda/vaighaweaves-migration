@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-02-22T04:17:07.276Z",
+  "results": [
+    {
+      "name": "System connectivity",
+      "passed": false,
+      "details": "Could not reach one or both APIs: "
+    }
+  ]
+}
