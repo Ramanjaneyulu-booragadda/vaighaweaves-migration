@@ -13,7 +13,8 @@
     "postbuild": "next-sitemap",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
@@ -34,6 +35,7 @@
     "react-country-flag": "^3.1.0",
     "react-dom": "19.0.4",
     "server-only": "^0.0.1",
+    "swiper": "^12.1.2",
     "tailwindcss-radix": "^2.8.0",
     "webpack": "^5"
   },
