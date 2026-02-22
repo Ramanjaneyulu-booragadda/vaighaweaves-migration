@@ -1,5 +1,5 @@
-import Nav from "@modules/layout/components/nav"
-import Footer from "@modules/layout/components/footer"
+import Nav from "@modules/layout/templates/nav"
+import Footer from "@modules/layout/templates/footer"
 
 export default function StoreLayout({
   children,
@@ -9,7 +9,7 @@ export default function StoreLayout({
   return (
     <>
       <Nav />
-      <main className="min-h-screen">{children}</main>
+      <main>{children}</main>
       <Footer />
     </>
   )

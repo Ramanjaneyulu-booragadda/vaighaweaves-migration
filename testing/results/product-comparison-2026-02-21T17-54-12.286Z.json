@@ -1,0 +1,135 @@
+{
+  "timestamp": "2026-02-21T17:54:12.286Z",
+  "results": [
+    {
+      "name": "Product count matches",
+      "passed": false,
+      "details": "22 products differ (23.2% variance — exceeds 5% tolerance)"
+    },
+    {
+      "name": "Product data parity (by handle)",
+      "passed": false,
+      "details": "0/95 matched (0.0%), 2 missing in Medusa",
+      "data": {
+        "matched": 0,
+        "mismatched": 93,
+        "missingInNew": 2,
+        "missingInOld": 24,
+        "diffs": [
+          {
+            "handle": "ready-made-three-piece-set",
+            "issue": "missing_in_medusa"
+          },
+          {
+            "handle": "ready-made-two-piece-set",
+            "issue": "missing_in_medusa"
+          },
+          {
+            "handle": "test-1",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "test13",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "test-feb-13",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "test",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "semi-katan-dress-materials",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "mangalgiri-pattu-only-top-kanchi-butta-border",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "mangalgiri-pattu-top-with-checks-pattern",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          },
+          {
+            "handle": "mangalgiri-pattu-with-classic-kanchi-nizam-border",
+            "differences": [
+              {
+                "path": "root.status",
+                "type": "value_mismatch",
+                "old": "published",
+                "new": "draft"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Response time comparison",
+      "passed": true,
+      "details": "Old=1385ms, New=80ms (ratio: 0.06x)",
+      "duration": 80
+    },
+    {
+      "name": "Category filtering works",
+      "passed": true,
+      "details": "Category \"AJRAKH DRESS MATERIAL\" returned 2 products"
+    },
+    {
+      "name": "Product search works",
+      "passed": true,
+      "details": "\"saree\": 20, \"silk\": 20, \"cotton\": 20"
+    }
+  ]
+}

@@ -34,15 +34,6 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
-        primary: {
-          DEFAULT: "#8B1A1A",
-          dark: "#6B1414",
-          light: "#A52020",
-        },
-        gold: {
-          DEFAULT: "#D4AF37",
-          light: "#E8CC5A",
-        },
       },
       borderRadius: {
         none: "0px",

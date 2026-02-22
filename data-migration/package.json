@@ -1,0 +1,35 @@
+{
+  "name": "vaighaweaves-data-migration",
+  "version": "1.0.0",
+  "description": "Data migration scripts from MySQL to Medusa PostgreSQL",
+  "main": "index.js",
+  "scripts": {
+    "script:01": "ts-node 01-setup-medusa-schema.ts",
+    "script:02": "ts-node 02-migrate-categories.ts",
+    "script:03": "ts-node 03-migrate-products.ts",
+    "script:04": "ts-node 04-migrate-images.ts",
+    "script:05": "ts-node 05-migrate-variants-and-stock.ts",
+    "script:06": "ts-node 06-migrate-users.ts",
+    "script:07": "ts-node 07-migrate-addresses.ts",
+    "script:08": "ts-node 08-migrate-orders.ts",
+    "script:09": "ts-node 09-migrate-payments.ts",
+    "script:10": "ts-node 10-migrate-stock-events.ts",
+    "script:11": "ts-node 11-migrate-shipments.ts",
+    "script:12": "ts-node 12-verify-migration.ts",
+    "script:13": "ts-node 13-migrate-stock-reservations.ts",
+    "migrate:all": "npm run script:01 && npm run script:02 && npm run script:03 && npm run script:04 && npm run script:05 && npm run script:06 && npm run script:07 && npm run script:08 && npm run script:09 && npm run script:10 && npm run script:11 && npm run script:12 && npm run script:13"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.994.0",
+    "@aws-sdk/lib-storage": "^3.994.0",
+    "mysql2": "^3.6.5",
+    "pg": "^8.11.3",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/pg": "^8.16.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

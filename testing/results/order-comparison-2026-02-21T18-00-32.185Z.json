@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-02-21T18:00:32.185Z",
+  "results": [
+    {
+      "name": "System connectivity / auth",
+      "passed": false,
+      "details": "Request failed with status code 401"
+    }
+  ]
+}

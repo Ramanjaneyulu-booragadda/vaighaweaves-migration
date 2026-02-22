@@ -14,22 +14,59 @@ module.exports = defineConfig({
     }
   },
   modules: [
+    // ── Phase 1 ──────────────────────────────────────────────────────────
     {
-      resolve: "./src/modules/wishlist",
+      resolve: "./src/modules/stock-events",
     },
+    // ── Phase 2 ──────────────────────────────────────────────────────────
+    {
+      resolve: "./src/modules/product-metadata",
+    },
+    {
+      resolve: "./src/modules/image-optimizer",
+    },
+    // ── Phase 3: Webhook Monitor ─────────────────────────────────────────
+    {
+      resolve: "./src/modules/webhook-monitor",
+    },
+    // ── Phase 3: Razorpay Payment Provider ───────────────────────────────
     {
       resolve: "@medusajs/medusa/payment",
       options: {
         providers: [
-          { resolve: "@medusajs/payment-manual", id: "manual" },
+          {
+            resolve: "./src/modules/payment-razorpay",
+            id: "razorpay",
+            options: {
+              key_id: process.env.RAZORPAY_KEY_ID!,
+              key_secret: process.env.RAZORPAY_KEY_SECRET!,
+              webhook_secret: process.env.RAZORPAY_WEBHOOK_SECRET || "",
+              auto_capture: true,
+            },
+          },
         ],
       },
     },
+    // ── Phase 3: India Post Fulfillment Provider ─────────────────────────
     {
       resolve: "@medusajs/medusa/fulfillment",
       options: {
         providers: [
-          { resolve: "@medusajs/fulfillment-manual", id: "manual" },
+          {
+            resolve: "./src/modules/fulfillment-indian-carriers",
+            id: "indian-carriers",
+            options: {
+              india_post: {
+                api_url: process.env.INDIA_POST_API_URL || "https://bext.cept.gov.in/beextcustomer",
+                customer_id: process.env.INDIA_POST_CUSTOMER_ID || "",
+                password: process.env.INDIA_POST_PASSWORD || "",
+                sender_name: process.env.INDIA_POST_SENDER_NAME || "VaighaWeaves",
+                sender_address: process.env.INDIA_POST_SENDER_ADDRESS || "",
+                sender_pincode: process.env.INDIA_POST_SENDER_PINCODE || "500001",
+                sender_phone: process.env.INDIA_POST_SENDER_PHONE || "",
+              },
+            },
+          },
         ],
       },
     },
