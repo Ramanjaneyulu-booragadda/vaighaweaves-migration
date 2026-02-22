@@ -64,7 +64,7 @@ export function AuthProvider({
   const loginWithGoogle = async (idToken: string) => {
     setLoading(true)
     try {
-      const res = await fetch("/api/auth/callback", {
+      const res = await fetch(`/api/auth/callback?code=${encodeURIComponent(idToken)}`, {
         method: "GET",
       })
       if (!res.ok) throw new Error("Google login failed")
