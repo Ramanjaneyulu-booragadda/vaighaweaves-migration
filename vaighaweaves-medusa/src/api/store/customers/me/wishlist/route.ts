@@ -1,0 +1,36 @@
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
+import { WISHLIST_MODULE } from "../../../../modules/wishlist"
+import WishlistModuleService from "../../../../modules/wishlist/service"
+
+export async function GET(req: MedusaRequest, res: MedusaResponse) {
+  const customerId = req.auth_context?.actor_id
+  if (!customerId) {
+    return res.status(401).json({ message: "Unauthorized" })
+  }
+
+  const wishlistService: WishlistModuleService = req.scope.resolve(WISHLIST_MODULE)
+  const items = await wishlistService.getByCustomer(customerId)
+
+  res.status(200).json({ wishlist: items })
+}
+
+export async function POST(req: MedusaRequest, res: MedusaResponse) {
+  const customerId = req.auth_context?.actor_id
+  if (!customerId) {
+    return res.status(401).json({ message: "Unauthorized" })
+  }
+
+  const { product_id, variant_id } = req.body as {
+    product_id: string
+    variant_id?: string
+  }
+
+  if (!product_id) {
+    return res.status(400).json({ message: "product_id is required" })
+  }
+
+  const wishlistService: WishlistModuleService = req.scope.resolve(WISHLIST_MODULE)
+  const item = await wishlistService.addItem(customerId, product_id, variant_id)
+
+  res.status(201).json({ wishlist_item: item })
+}
