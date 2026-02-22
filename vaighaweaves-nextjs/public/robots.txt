@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://vaighaweaves.com
+
+# Sitemaps
+Sitemap: https://vaighaweaves.com/sitemap.xml
