@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { WishlistProvider } from "@context/WishlistContext"
 import "styles/globals.css"
 
 export const metadata: Metadata = {
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-mode="light">
       <body>
-        <WishlistProvider>
-          <main className="relative">{children}</main>
-        </WishlistProvider>
+        <main className="relative">{children}</main>
       </body>
     </html>
   )

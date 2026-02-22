@@ -5,6 +5,15 @@ const BACKEND_URL = process.env.MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
+/** Produces a stable hex token from the gate password using the Web Crypto API (Edge-compatible). */
+async function hashGatePassword(password: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(password)
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer)
+  return Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+}
+
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
   regionMapUpdated: Date.now(),
@@ -104,6 +113,40 @@ async function getCountryCode(
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // ── Maintenance mode ────────────────────────────────────────────────────────
+  const IS_MAINTENANCE = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true"
+  if (IS_MAINTENANCE && pathname !== "/maintenance") {
+    const isAuthPath =
+      pathname.startsWith("/login") || pathname.startsWith("/api/auth")
+    if (!isAuthPath) {
+      const ALLOW_ADMIN_BYPASS =
+        process.env.NEXT_PUBLIC_ADMIN_BYPASS === "true"
+      const isAdminBypass =
+        request.cookies.get("_admin_bypass")?.value ===
+        process.env.ADMIN_BYPASS_SECRET
+      if (!ALLOW_ADMIN_BYPASS || !isAdminBypass) {
+        return NextResponse.rewrite(new URL("/maintenance", request.url))
+      }
+    }
+  }
+
+  // ── DevSiteGate — password protection for staging ──────────────────────────
+  const DEV_GATE = process.env.NEXT_PUBLIC_ENABLE_DEV_GATE === "true"
+  if (DEV_GATE && pathname !== "/dev-gate") {
+    const gateBypass = request.cookies.get("_dev_gate")?.value
+    const expectedToken = process.env.DEV_GATE_PASSWORD
+      ? await hashGatePassword(process.env.DEV_GATE_PASSWORD)
+      : undefined
+    if (
+      gateBypass !== expectedToken &&
+      !pathname.startsWith("/api/auth/gate")
+    ) {
+      return NextResponse.rewrite(new URL("/dev-gate", request.url))
+    }
+  }
+
   let redirectUrl = request.nextUrl.href
 
   let response = NextResponse.redirect(redirectUrl, 307)

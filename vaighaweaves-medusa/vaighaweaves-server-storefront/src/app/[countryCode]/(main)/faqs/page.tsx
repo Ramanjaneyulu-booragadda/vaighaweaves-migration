@@ -59,7 +59,7 @@ const faqSchema = {
   })),
 }
 
-export default function FaqsPage() {
+export default function FAQsPage() {
   return (
     <div className="content-container py-12 max-w-3xl mx-auto">
       {/* JSON-LD for FAQ rich snippets */}
