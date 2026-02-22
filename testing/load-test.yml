@@ -1,0 +1,134 @@
+config:
+  target: "http://localhost:9000"
+  phases:
+    # Phase 1: Warm-up
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm-up (5 users/sec)"
+
+    # Phase 2: Ramp-up
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 50
+      name: "Ramp-up (5 → 50 users/sec)"
+
+    # Phase 3: Sustained load
+    - duration: 120
+      arrivalRate: 50
+      name: "Sustained (50 users/sec)"
+
+    # Phase 4: Spike
+    - duration: 30
+      arrivalRate: 100
+      name: "Spike (100 users/sec)"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+  ensure:
+    thresholds:
+      - http.response_time.p95: 500
+      - http.response_time.p99: 1000
+    conditions:
+      - expression: "http.codes.5xx == 0"
+        strict: true
+      - expression: "http.response_time.p95 < 500"
+        strict: false
+
+  plugins:
+    expect: {}
+
+scenarios:
+  # ── Browse Products (60% weight) ──────────────────────────────────────
+  - name: "Browse products"
+    weight: 60
+    flow:
+      # List products (paginated)
+      - get:
+          url: "/store/products?limit=20&offset=0"
+          expect:
+            - statusCode: 200
+          capture:
+            - json: "$.products[0].id"
+              as: "productId"
+
+      # View a single product
+      - get:
+          url: "/store/products/{{ productId }}?fields=*variants,*images"
+          ifTrue: "productId"
+          expect:
+            - statusCode: 200
+
+      # Browse next page
+      - get:
+          url: "/store/products?limit=20&offset=20"
+          expect:
+            - statusCode: 200
+
+  # ── Search Products (20% weight) ──────────────────────────────────────
+  - name: "Search products"
+    weight: 20
+    flow:
+      - get:
+          url: "/store/products?q=saree&limit=20"
+          expect:
+            - statusCode: 200
+
+      - get:
+          url: "/store/products?q=silk&limit=20"
+          expect:
+            - statusCode: 200
+
+      - get:
+          url: "/store/products?q=cotton&limit=20"
+          expect:
+            - statusCode: 200
+
+  # ── Cart Flow (15% weight) ────────────────────────────────────────────
+  - name: "Cart flow"
+    weight: 15
+    flow:
+      # Get a product with variants
+      - get:
+          url: "/store/products?limit=1&fields=*variants"
+          capture:
+            - json: "$.products[0].variants[0].id"
+              as: "variantId"
+
+      # Create cart
+      - post:
+          url: "/store/carts"
+          json:
+            region_id: "reg_01"
+          capture:
+            - json: "$.cart.id"
+              as: "cartId"
+
+      # Add item to cart
+      - post:
+          url: "/store/carts/{{ cartId }}/line-items"
+          ifTrue: "cartId && variantId"
+          json:
+            variant_id: "{{ variantId }}"
+            quantity: 1
+
+  # ── Category Browse (5% weight) ───────────────────────────────────────
+  - name: "Category browse"
+    weight: 5
+    flow:
+      # List categories
+      - get:
+          url: "/store/product-categories?limit=20"
+          expect:
+            - statusCode: 200
+          capture:
+            - json: "$.product_categories[0].id"
+              as: "categoryId"
+
+      # Get products in category
+      - get:
+          url: "/store/products?category_id[]={{ categoryId }}&limit=20"
+          ifTrue: "categoryId"
+          expect:
+            - statusCode: 200

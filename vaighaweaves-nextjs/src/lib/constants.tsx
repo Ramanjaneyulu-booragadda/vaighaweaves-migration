@@ -34,7 +34,14 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
-  // Add more payment providers here
+  pp_razorpay_razorpay: {
+    title: "Razorpay (Cards, UPI, Netbanking)",
+    icon: <CreditCard />,
+  },
+  pp_manual_manual: {
+    title: "Manual Payment (In-store)",
+    icon: <CreditCard />,
+  },
 }
 
 // This only checks if it is native stripe or medusa payments for card payments, it ignores the other stripe-based providers
@@ -48,7 +55,15 @@ export const isPaypal = (providerId?: string) => {
   return providerId?.startsWith("pp_paypal")
 }
 export const isManual = (providerId?: string) => {
-  return providerId?.startsWith("pp_system_default")
+  return (
+    providerId?.startsWith("pp_system_default") ||
+    providerId?.startsWith("pp_manual")
+  )
+}
+
+/** Returns true for the Razorpay provider */
+export const isRazorpay = (providerId?: string) => {
+  return !!providerId?.startsWith("pp_razorpay")
 }
 
 // Add currencies that don't need to be divided by 100

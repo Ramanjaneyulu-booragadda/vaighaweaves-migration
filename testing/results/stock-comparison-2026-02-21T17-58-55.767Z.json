@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-02-21T17:58:55.767Z",
+  "results": [
+    {
+      "name": "Total inventory entry count",
+      "passed": true,
+      "details": "Old total=0, New total=0, diff=0 (0.0%)"
+    },
+    {
+      "name": "Per-product stock parity",
+      "passed": true,
+      "details": "93/95 products match (97.9%)",
+      "data": {
+        "matches": 93,
+        "discrepancies": 2,
+        "topDiscrepancies": [
+          {
+            "handle": "ready-made-three-piece-set",
+            "old": 0,
+            "new": 0,
+            "diff": 0
+          },
+          {
+            "handle": "ready-made-two-piece-set",
+            "old": 0,
+            "new": 0,
+            "diff": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Race condition test (no overselling)",
+      "passed": true,
+      "details": "No products with stock found (skipped)"
+    }
+  ]
+}

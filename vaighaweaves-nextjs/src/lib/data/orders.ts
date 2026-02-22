@@ -110,3 +110,25 @@ export const declineTransferRequest = async (id: string, token: string) => {
     .then(({ order }) => ({ success: true, error: null, order }))
     .catch((err) => ({ success: false, error: err.message, order: null }))
 }
+
+/**
+ * Retrieve the customer's wishlist items.
+ * Requires Stream A's wishlist module to be present on the Medusa backend.
+ */
+export const getWishlist = async (): Promise<any[]> => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  if (!("authorization" in headers)) return []
+
+  return sdk.client
+    .fetch<{ wishlist: any[] }>("/store/customers/me/wishlist", {
+      method: "GET",
+      headers,
+      next: { tags: ["wishlist"] },
+      cache: "force-cache",
+    })
+    .then(({ wishlist }) => wishlist ?? [])
+    .catch(() => [])
+}

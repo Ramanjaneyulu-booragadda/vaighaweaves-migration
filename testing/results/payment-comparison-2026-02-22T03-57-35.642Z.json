@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-02-22T03:57:35.642Z",
+  "results": [
+    {
+      "name": "Payment count matches",
+      "passed": false,
+      "details": "Diff: 863 payments (100.0% variance)"
+    },
+    {
+      "name": "Payment amounts valid (sample)",
+      "passed": true,
+      "details": "0/0 payments have valid amount + transaction ID"
+    },
+    {
+      "name": "Payment status distribution (Medusa)",
+      "passed": true,
+      "details": "0 distinct statuses",
+      "data": {}
+    },
+    {
+      "name": "Total revenue (Medusa)",
+      "passed": false,
+      "details": "Total completed revenue: Rs.0.00"
+    }
+  ]
+}

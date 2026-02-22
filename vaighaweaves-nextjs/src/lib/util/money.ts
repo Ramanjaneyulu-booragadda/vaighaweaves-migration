@@ -24,3 +24,16 @@ export const convertToLocale = ({
       }).format(amount)
     : amount.toString()
 }
+
+/**
+ * Format a Medusa amount in paise (smallest INR unit) to a human-readable INR string.
+ * e.g. 150000 paise → "₹1,500.00"
+ */
+export const formatINR = (amountInPaise: number): string => {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amountInPaise / 100)
+}
