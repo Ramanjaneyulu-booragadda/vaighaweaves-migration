@@ -85,7 +85,7 @@ function ProductStockWidget({ data }: ProductWidgetProps) {
         body: JSON.stringify({
           product_id: product.id,
           variant_id: adjustVariantId,
-          quantity_change: parseInt(adjustQty) || 0,
+          quantity_change: parseInt(adjustQty, 10) || 0,
           note: adjustNote,
         }),
       })

@@ -40,7 +40,7 @@ export async function PUT(
     image_url: body.image_url ?? existing.image_url,
     link_url: body.link_url ?? existing.link_url,
     position: body.position ?? existing.position,
-    active: body.active ?? existing.active,
+    active: body.active !== undefined ? body.active : existing.active,
   }
   banners[index] = updated
   res.json({ banner: updated })

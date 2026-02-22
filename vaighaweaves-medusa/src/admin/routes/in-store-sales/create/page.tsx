@@ -66,7 +66,7 @@ function CreateInStoreSalePage() {
   const handleAddProduct = () => {
     if (!productSearch.trim()) return
     const newItem: CartItem = {
-      variant_id: `mock_${crypto.randomUUID()}`,
+      variant_id: crypto.randomUUID(),
       title: productSearch,
       price: 0,
       quantity: 1,
@@ -284,7 +284,7 @@ function CreateInStoreSalePage() {
                         onChange={(e) =>
                           handleQuantityChange(
                             idx,
-                            parseInt(e.target.value) || 1
+                            parseInt(e.target.value, 10) || 1
                           )
                         }
                       />
